@@ -1,0 +1,38 @@
+{
+	"apps": [
+		{
+			//名称
+			"name": "myapp",
+			//程序入口
+			"script": "./bin/www",
+			//根目录
+			"cwd": "./",
+			//需要监控的目录
+			"watch": [
+				"bin",
+				"common",
+				"configs",
+				"public",
+				"routes",
+				"models",
+				"views",
+				"controllers"
+			],
+			/*"instances": 1,
+			"exec_mode": "cluster",*/
+			"exec_mode": "fork",
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"env_production": {
+				"NODE_ENV": "production"
+			},
+			//错误输出日志
+			"error_file": "./logs/app-err.log",
+			//日志
+			"out_file": "./logs/app-out.log",
+			//日期格式
+			"log_date_format": "YYYY-MM-DD HH:mm Z"
+		}
+	]
+}

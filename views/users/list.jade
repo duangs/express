@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+	h1= title
+	table
+		tr
+			td Host
+			td User
+			td password
+		each user in users
+			tr
+				td= user.host
+				td= user.user
+				td= user.password
