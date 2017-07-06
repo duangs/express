@@ -28,7 +28,7 @@ router.post('/login', function (req, res) {
 
 	if (req.body.username == user.username && req.body.password == user.password) {
 		req.session.user = user;
-		res.cookie('__u', user.uid, {expires: new Date(Date.now() + (1 * 24 * 60 * 60 * 1000)), httpOnly: true});
+		res.cookie('__u', user.uid, {expires: new Date(Date.now() + (1 * 24 * 3600 * 1000)), httpOnly: true});
 		if (req.session.loginReferer) {
 			var referer = req.session.loginReferer;
 			req.session.loginReferer = false;

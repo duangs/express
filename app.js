@@ -7,14 +7,21 @@ var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 var session = require('express-session');
 var redis = require('redis');
+var IoRedis = require('ioredis');
 var RedisStore = require('connect-redis')(session);
+var config = require('./config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
-var redisClient = redis.createClient(6379, '192.168.100.34');
+var redisClient;
+if (config.redis.mode == 'fork') {
+	redisClient = redis.createClient(config.redis.node);
+} else {
+	redisClient = new IoRedis.Cluster(config.redis.node);
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

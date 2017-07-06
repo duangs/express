@@ -21,7 +21,9 @@
 			/*"instances": 2,
 			"exec_mode": "cluster",*/
 			"exec_mode": "fork",
+			//启动设置环境变量
 			"env": {
+//				"DEBUG": "connect*,express*",
 				"NODE_ENV": "development"
 			},
 			"env_production": {

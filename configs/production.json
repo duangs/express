@@ -7,5 +7,12 @@
 		"password": "password",
 		"database": "mysql",
 		"connectTimeout": 30000
+	},
+	"redis": {
+		"mode": "fork",
+		"node": {
+			"host": "192.168.100.34",
+			"port": 6379
+		}
 	}
 }
