@@ -19,7 +19,6 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-	console.log(req.headers);
 	var user = {
 		uid: 1,
 		username: 'admin',
@@ -27,7 +26,7 @@ router.post('/login', function (req, res) {
 	};
 
 	if (req.body.username == user.username && req.body.password == user.password) {
-		req.session.user = user;
+		req.session._session_user = user;
 		res.cookie('__u', user.uid, {expires: new Date(Date.now() + (1 * 24 * 3600 * 1000)), httpOnly: true});
 		if (req.session.loginReferer) {
 			var referer = req.session.loginReferer;
@@ -44,8 +43,10 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/logout', [Filter.checkLogin], function (req, res) {
+	req.session.destroy(function () {
+		
+	});
 	res.cookie('__u', false, {expires: new Date(Date.now() - 10), httpOnly: true});
-	req.session.destroy();
 	res.redirect('/');
 });
 

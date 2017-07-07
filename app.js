@@ -43,7 +43,7 @@ app.use(session({
 	secret: 'cisdgji4IV5JI31I3mfjkliG93T6JIjl',
 	cookie: {maxAge: 1000 * 3600},
 	resave: false,
-	store: new RedisStore({client: redisClient})
+	store: new RedisStore({prefix: 'express:app:{basic}.',client: redisClient})
 }));
 
 app.use('/', index);
