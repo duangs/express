@@ -6,22 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 var session = require('express-session');
-var redis = require('redis');
-var IoRedis = require('ioredis');
-var RedisStore = require('connect-redis')(session);
+
 var config = require('./config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-
-var redisClient;
-if (config.redis.mode == 'fork') {
-	redisClient = redis.createClient(config.redis.node);
-} else {
-	redisClient = new IoRedis.Cluster(config.redis.node);
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,15 +27,27 @@ app.use(cookieParser(config.secret));
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-	/*'name': '',
-	 'genid': '',
-	 'rolling': '',*/
-	secret: config.secret,
-	// cookie: {maxAge: null},
-	resave: false,
-	store: new RedisStore({prefix: 'express:app:{basic}.',client: redisClient})
-}));
+if (config.redis) {
+	var redisClient;
+	var redis = require('redis');
+	var IoRedis = require('ioredis');
+	var RedisStore = require('connect-redis')(session);
+	if (config.redis.mode == 'fork') {
+		redisClient = redis.createClient(config.redis.node);
+	} else {
+		redisClient = new IoRedis.Cluster(config.redis.node);
+	}
+	app.use(session({
+		secret: config.secret,
+		resave: false,
+		store: new RedisStore({prefix: 'express:app:{basic}.', client: redisClient})
+	}));
+}else{
+	app.use(session({
+		secret: config.secret,
+		resave: false
+	}));
+}
 
 app.use('/', index);
 app.use('/users', users);
