@@ -3,7 +3,7 @@ var Filter = {};
 
 Filter.checkLogin = function (req, res, next) {
 	if(!req.session._session_user || req.session._session_user == 'undefined'){
-		if(!req.cookies.__u || req.cookies.__u == 'undefined') {
+		if(!req.signedCookies.__u || req.signedCookies.__u == 'undefined') {
 			res.redirect('/login');
 			return false;
 		}

@@ -41,7 +41,7 @@ app.use(session({
 	 'genid': '',
 	 'rolling': '',*/
 	secret: config.secret,
-	cookie: {maxAge: 1000 * 3600},
+	// cookie: {maxAge: null},
 	resave: false,
 	store: new RedisStore({prefix: 'express:app:{basic}.',client: redisClient})
 }));
