@@ -32,7 +32,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser(config.secret));
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -40,7 +40,7 @@ app.use(session({
 	/*'name': '',
 	 'genid': '',
 	 'rolling': '',*/
-	secret: 'cisdgji4IV5JI31I3mfjkliG93T6JIjl',
+	secret: config.secret,
 	cookie: {maxAge: 1000 * 3600},
 	resave: false,
 	store: new RedisStore({prefix: 'express:app:{basic}.',client: redisClient})
